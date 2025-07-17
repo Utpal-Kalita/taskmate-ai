@@ -1,0 +1,196 @@
+{% extends "layout.html" %}
+
+{% block title %}Add Task - TaskMate{% endblock %}
+
+{% block navbar %}
+<!-- Dashboard navbar with logout option -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{{ url_for('dashboard') }}">TaskMate</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('dashboard') }}">Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="{{ url_for('add_task') }}">Add Task</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('profile') }}">Profile</a>
+        </li>
+      </ul>
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5 pt-5">
+  
+  <!-- Add Task Form Section -->
+  <div class="row mb-5">
+    <div class="col-lg-6 mx-auto">
+      <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+          <h3 class="mb-0"><i class="fas fa-plus-circle me-2"></i>Add New Task</h3>
+        </div>
+        <div class="card-body">
+          <form method="POST">
+            <div class="mb-3">
+              <label for="title" class="form-label">
+                <i class="fas fa-heading me-1"></i>Task Title
+              </label>
+              <input type="text" name="title" id="title" class="form-control" 
+                     placeholder="Enter task title..." required>
+            </div>
+
+            <div class="mb-3">
+              <label for="description" class="form-label">
+                <i class="fas fa-align-left me-1"></i>Description
+              </label>
+              <textarea name="description" id="description" class="form-control" 
+                        rows="3" placeholder="Describe your task..." required></textarea>
+            </div>
+
+            <div class="mb-3">
+              <label for="status" class="form-label">
+                <i class="fas fa-list me-1"></i>Status
+              </label>
+              <select name="status" id="status" class="form-select">
+                <option value="To Do">📝 To Do</option>
+                <option value="In Progress">⏳ In Progress</option>
+                <option value="Done">✅ Done</option>
+              </select>
+            </div>
+
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary btn-lg">
+                <i class="fas fa-plus me-2"></i>Add Task
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tasks Display Section -->
+  <div class="row">
+    <div class="col-12">
+      <div class="card shadow">
+        <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
+          <h3 class="mb-0"><i class="fas fa-tasks me-2"></i>Your Tasks</h3>
+          <span class="badge bg-light text-dark">{{ all_tasks|length }} task(s)</span>
+        </div>
+        <div class="card-body p-0">
+          {% if all_tasks %}
+            <div class="table-responsive">
+              <table class="table table-hover mb-0">
+                <thead class="table-dark">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Created</th>
+                    <th scope="col">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for task in all_tasks %}
+                  <tr>
+                    <td class="fw-bold">{{ task.id }}</td>
+                    <td>
+                      <div class="fw-semibold">{{ task.title }}</div>
+                    </td>
+                    <td>
+                      <div class="text-muted small task-description">
+                        {{ task.description[:100] }}{% if task.description|length > 100 %}...{% endif %}
+                      </div>
+                    </td>
+                    <td>
+                      {% if task.status == 'To Do' %}
+                        <span class="badge bg-warning text-dark">📝 {{ task.status }}</span>
+                      {% elif task.status == 'In Progress' %}
+                        <span class="badge bg-info text-dark">⏳ {{ task.status }}</span>
+                      {% elif task.status == 'Done' %}
+                        <span class="badge bg-success">✅ {{ task.status }}</span>
+                      {% else %}
+                        <span class="badge bg-secondary">{{ task.status }}</span>
+                      {% endif %}
+                    </td>
+                    <td class="text-muted small">
+                      {{ task.created_at.split(' ')[0] if task.created_at else 'N/A' }}
+                    </td>
+                    <td>
+                      <div class="btn-group btn-group-sm" role="group">
+                        <button type="button" class="btn btn-outline-primary" title="Edit">
+                          <i class="fas fa-edit"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-danger" title="Delete">
+                          <i class="fas fa-trash"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          {% else %}
+            <div class="text-center py-5">
+              <div class="mb-3">
+                <i class="fas fa-inbox fa-4x text-muted"></i>
+              </div>
+              <h4 class="text-muted">No tasks yet!</h4>
+              <p class="text-muted">Create your first task using the form above.</p>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<style>
+.card {
+  border: none;
+  border-radius: 10px;
+}
+
+.card-header {
+  border-radius: 10px 10px 0 0 !important;
+}
+
+.table th {
+  border-top: none;
+}
+
+.btn-group-sm > .btn {
+  padding: 0.25rem 0.4rem;
+}
+
+.badge {
+  font-size: 0.8em;
+}
+
+.table-hover tbody tr:hover {
+  background-color: rgba(0, 123, 255, 0.05);
+}
+
+.task-description {
+  max-width: 300px;
+}
+</style>
+{% endblock %}

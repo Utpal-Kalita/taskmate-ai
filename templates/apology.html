@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Apology
+{% endblock %}
+
+{% block content %}
+    <div class="container mt-5 pt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-center">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title text-danger">{{ top }}</h2>
+                        <p class="card-text">{{ bottom }}</p>
+                        <a href="/" class="btn btn-primary">Go Back</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
