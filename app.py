@@ -27,7 +27,44 @@ def index():
 
 @app.route("/dashboard")
 def dashboard():
-    return render_template("dashboard.html")
+    if "user_id" not in session:
+        return redirect("/login")
+    
+    # Import date at the top
+    from datetime import date
+    
+    user_id = session["user_id"]
+    today = date.today().isoformat()  # 'YYYY-MM-DD'
+    
+    # Get task counts
+    total_tasks = db.execute("SELECT COUNT(*) FROM tasks WHERE user_id = ?", user_id)[0]["COUNT(*)"]
+    completed_tasks = db.execute("SELECT COUNT(*) FROM tasks WHERE user_id = ? AND status = 'Done'", user_id)[0]["COUNT(*)"]
+    in_progress_tasks = db.execute("SELECT COUNT(*) FROM tasks WHERE user_id = ? AND status = 'In Progress'", user_id)[0]["COUNT(*)"]
+    todo_tasks = db.execute("SELECT COUNT(*) FROM tasks WHERE user_id = ? AND status = 'To Do'", user_id)[0]["COUNT(*)"]
+    overdue_tasks = db.execute("SELECT COUNT(*) FROM tasks WHERE deadline < ? AND user_id = ? AND status != 'Done'", today, user_id)[0]["COUNT(*)"]
+    
+    # Fetch high priority tasks for logged-in user (prioritize those with deadlines)
+    high_priority_tasks = db.execute(
+        "SELECT * FROM tasks WHERE user_id = ? AND priority = ? ORDER BY deadline IS NULL, deadline ASC LIMIT 5",
+        user_id,
+        "High"
+    )
+    
+    # Fetch upcoming tasks (only tasks with deadlines)
+    upcoming_tasks = db.execute(
+        "SELECT * FROM tasks WHERE user_id = ? AND deadline IS NOT NULL AND deadline >= ? ORDER BY deadline ASC LIMIT 5",
+        user_id,
+        today
+    )
+
+    return render_template("dashboard.html", 
+                         total_tasks=total_tasks,
+                         completed_tasks=completed_tasks,
+                         in_progress_tasks=in_progress_tasks,
+                         todo_tasks=todo_tasks,
+                         overdue_tasks=overdue_tasks,
+                         high_priority_tasks=high_priority_tasks, 
+                         upcoming_tasks=upcoming_tasks)
 
 @app.route("/my_task", methods=["GET", "POST"])
 def my_task():
@@ -40,6 +77,7 @@ def my_task():
         title = request.form.get("title")
         description = request.form.get("description")
         status = request.form.get("status") or "To Do"  # Default to "To Do" if not provided
+        priority = request.form.get("priority") or "Medium"  # Default to "Medium" if not provided
         deadline = request.form.get("deadline")  # Get deadline from form
 
         # validation
@@ -48,17 +86,46 @@ def my_task():
         if not description:
             return apology("must provide a task description", 400)
 
-        # insert into DB with user_id, status, and deadline
-        db.execute("INSERT INTO tasks (title, description, status, deadline, user_id) VALUES (?, ?, ?, ?, ?)", 
-                  title, description, status, deadline, session["user_id"])
+        # insert into DB with user_id, status, priority, and deadline
+        db.execute("INSERT INTO tasks (title, description, status, priority, deadline, user_id) VALUES (?, ?, ?, ?, ?, ?)", 
+                  title, description, status, priority, deadline, session["user_id"])
 
         # redirect after success
         return redirect("/my_task")
 
     else:
-        # Show all tasks table
-        tasks = db.execute("SELECT * FROM tasks WHERE user_id = ?", session["user_id"])
+        # Get sort option from query param
+        sort_by = request.args.get("sort_by") or "created_at"
+
+        # Allow only specific columns for sorting
+        allowed_sorts = {
+            "created_at": "created_at",
+            "deadline": "deadline",
+            "priority": "priority"
+        }
+        sort_column = allowed_sorts.get(sort_by, "created_at")
+
+        # Fetch sorted tasks
+        if sort_column == "priority":
+            # Special sorting for priority: High > Medium > Low
+            query = """
+                SELECT * FROM tasks WHERE user_id = ? 
+                ORDER BY 
+                    CASE priority
+                        WHEN 'High' THEN 1
+                        WHEN 'Medium' THEN 2
+                        WHEN 'Low' THEN 3
+                        ELSE 4
+                    END
+            """
+            tasks = db.execute(query, session["user_id"])
+        else:
+            tasks = db.execute(
+                f"SELECT * FROM tasks WHERE user_id = ? ORDER BY {sort_column} DESC",
+                session["user_id"]
+            )
         return render_template("my_task.html", all_tasks=tasks)
+
 
 @app.route("/edit_task/<int:task_id>", methods=["GET", "POST"])
 def edit_task(task_id):
@@ -79,14 +146,15 @@ def edit_task(task_id):
         title = request.form.get("title")
         description = request.form.get("description")
         status = request.form.get("status")
+        priority = request.form.get("priority")
         deadline = request.form.get("deadline")
         
         if not title or not description:
             return apology("Title and description are required", 400)
         
         # Update the task
-        db.execute("UPDATE tasks SET title = ?, description = ?, status = ?, deadline = ? WHERE id = ? AND user_id = ?",
-                  title, description, status, deadline, task_id, session["user_id"])
+        db.execute("UPDATE tasks SET title = ?, description = ?, status = ?, priority = ?, deadline = ? WHERE id = ? AND user_id = ?",
+                  title, description, status, priority, deadline, task_id, session["user_id"])
         
         flash("Task updated successfully!", "success")
         return redirect("/my_task")
@@ -150,7 +218,7 @@ def login():
         session["user_id"] = rows[0]["id"]
 
         # Redirect user to home page
-        return redirect("/my_task")
+        return redirect("/dashboard")
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:
@@ -197,7 +265,7 @@ def register():
         rows = db.execute("SELECT id FROM users WHERE username = ?", username)
         session["user_id"] = rows[0]["id"]
 
-        return redirect("/")
+        return redirect("/dashboard")
     # else only display the register page
     else:
          return render_template("register.html")

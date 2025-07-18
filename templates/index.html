@@ -4,57 +4,676 @@
 {% block title %}Welcome to TaskMate{% endblock %}
 
 {% block navbar %}
-<!-- Landing page navbar: Login & Register only -->
-<nav class="navbar navbar-dark bg-primary"> <!-- blue navbar -->
+<!-- Enhanced Landing navbar with modern design -->
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top modern-navbar">
   <div class="container-fluid">
-    <a class="navbar-brand" href="{{ url_for('index') }}">TaskMate</a>
-    <div class="d-flex">
-      <a href="{{ url_for('login') }}" class="btn btn-primary">Login</a>
-      <a href="{{ url_for('register') }}" class="btn btn-primary">Register</a>
+    <!-- Brand with improved styling -->
+    <a class="navbar-brand brand-enhanced" href="{{ url_for('index') }}">
+      <i class="fas fa-check-circle me-2 brand-icon"></i>
+      <span class="brand-text">TaskMate</span>
+    </a>
+    
+    <!-- Toggle button for mobile -->
+    <button class="navbar-toggler custom-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <!-- Main navigation links -->
+      <ul class="navbar-nav me-auto nav-enhanced">
+        <li class="nav-item">
+          <a class="nav-link nav-link-enhanced active" href="{{ url_for('index') }}">
+            <i class="fas fa-home me-2"></i>Home
+          </a>
+        </li>
+      </ul>
+      
+      <!-- Authentication actions on the right -->
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item me-2">
+          <a class="nav-link auth-link" href="{{ url_for('login') }}">
+            <i class="fas fa-sign-in-alt me-2"></i>Login
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link auth-link" href="{{ url_for('register') }}">
+            <i class="fas fa-user-plus me-2"></i>Register
+          </a>
+        </li>
+      </ul>
     </div>
   </div>
 </nav>
+
+<!-- Enhanced Navbar Styles -->
+<style>
+.modern-navbar {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.8rem 0;
+  min-height: 70px;
+}
+
+.brand-enhanced {
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-decoration: none;
+  color: white !important;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+}
+
+.brand-enhanced:hover {
+  transform: translateY(-2px);
+  color: #f8f9fa !important;
+}
+
+.brand-icon {
+  font-size: 1.8rem;
+  color: #ffd700;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+}
+
+.brand-text {
+  background: linear-gradient(45deg, #ffd700, #ffed4e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.nav-enhanced .nav-link-enhanced {
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-weight: 500;
+  padding: 0.75rem 1rem !important;
+  margin: 0 0.25rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.nav-enhanced .nav-link-enhanced:hover {
+  color: white !important;
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-1px);
+}
+
+.nav-enhanced .nav-link-enhanced.active {
+  color: #ffd700 !important;
+  background: rgba(255, 215, 0, 0.1);
+  font-weight: 600;
+}
+
+.auth-link {
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-weight: 500;
+  padding: 0.75rem 1rem !important;
+  margin: 0 0.25rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  position: relative;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.auth-link:hover {
+  color: white !important;
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-1px);
+}
+
+.auth-link.active {
+  color: #ffd700 !important;
+  background: rgba(255, 215, 0, 0.1);
+  font-weight: 600;
+}
+
+.custom-toggler {
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  padding: 0.4rem 0.6rem;
+}
+
+.custom-toggler:focus {
+  box-shadow: 0 0 0 0.2rem rgba(255, 215, 0, 0.25);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 991.98px) {
+  .navbar-nav {
+    padding: 1rem 0;
+  }
+  
+  .nav-enhanced .nav-link-enhanced,
+  .auth-link {
+    margin: 0.25rem 0;
+  }
+}
+
+/* Page content offset for fixed navbar */
+body {
+  padding-top: 85px;
+  background-color: #ffd700;
+}
+</style>
 {% endblock %}
 
 {% block content %}
-<section class="py-lg-16 py-8">
-                <!-- container -->
-               <div class="container">
-                  <!-- row -->
-                 <div class="row align-items-center">
-                    <!-- col -->
-                   <div class="col-lg-6 mb-6 mb-lg-0">
-                     <div class="">
-                        <!-- heading -->
-                       <h5 class="text-dark mb-4"><i class="fe fe-check icon-xxs icon-shape bg-light-success text-success rounded-circle me-2"></i>Most
-                         trusted education platform</h5>
-                          <!-- heading -->
-                       <h1 class="display-3 fw-bold mb-3">Grow your skills and advance career</h1>
-                        <!-- para -->
-                       <p class="pe-lg-10 mb-5">Start, switch, or advance your career with more than 5,000 courses, Professional
-                         Certificates, and degrees from world-class universities and companies.</p>
-                          <!-- btn -->
-                       <a href="#" class="btn btn-primary">Join Free Now</a>
-                       <a href="https://www.youtube.com/watch?v=JRzWRZahOVU" class="glightbox fs-4 text-inherit ms-3"><img src="../assets/images/svg/play-btn.svg" alt="" class="me-2">Watch Demo</a>
+<!-- Hero Section -->
+<section class="hero-section">
+  <div class="container">
+    <div class="row align-items-center min-vh-100 py-5">
+      <!-- Left Column - Content -->
+      <div class="col-lg-6 mb-5 mb-lg-0">
+        <div class="hero-content">
+          <!-- Badge -->
+          <div class="hero-badge mb-4">
+            <i class="fas fa-rocket me-2"></i>
+            <span>Next-Gen Task Management</span>
+          </div>
+          
+          <!-- Main Heading -->
+          <h1 class="hero-title mb-4">
+            Organize Your Life with 
+            <span class="text-gradient">TaskMate</span>
+          </h1>
+          
+          <!-- Subtitle -->
+          <p class="hero-subtitle mb-5">
+            Transform your productivity with our intelligent task management system. 
+            Stay organized, meet deadlines, and achieve your goals with ease.
+          </p>
+          
+          <!-- CTA Buttons -->
+          <div class="hero-buttons mb-5">
+            <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg me-3 cta-primary">
+              <i class="fas fa-user-plus me-2"></i>Get Started Free
+            </a>
+            <a href="{{ url_for('login') }}" class="btn btn-outline-primary btn-lg cta-secondary">
+              <i class="fas fa-sign-in-alt me-2"></i>Sign In
+            </a>
+          </div>
+          
+          <!-- Features List -->
+          <div class="hero-features">
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <div class="feature-item">
+                  <i class="fas fa-check-circle text-success me-2"></i>
+                  <span>Smart Task Organization</span>
+                </div>
+              </div>
+              <div class="col-md-6 mb-3">
+                <div class="feature-item">
+                  <i class="fas fa-check-circle text-success me-2"></i>
+                  <span>Real-time Collaboration</span>
+                </div>
+              </div>
+              <div class="col-md-6 mb-3">
+                <div class="feature-item">
+                  <i class="fas fa-check-circle text-success me-2"></i>
+                  <span>Progress Tracking</span>
+                </div>
+              </div>
+              <div class="col-md-6 mb-3">
+                <div class="feature-item">
+                  <i class="fas fa-check-circle text-success me-2"></i>
+                  <span>Mobile Friendly</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Right Column - Visual -->
+      <div class="col-lg-6">
+        <div class="hero-visual">
+          <div class="dashboard-mockup">
+            <div class="mockup-header">
+              <div class="mockup-controls">
+                <span class="control red"></span>
+                <span class="control yellow"></span>
+                <span class="control green"></span>
+              </div>
+              <div class="mockup-title">TaskMate Dashboard</div>
+            </div>
+            <div class="mockup-content">
+              <div class="task-card completed">
+                <i class="fas fa-check-circle text-success"></i>
+                <span>Complete project proposal</span>
+                <div class="task-meta">Today</div>
+              </div>
+              <div class="task-card in-progress">
+                <i class="fas fa-clock text-warning"></i>
+                <span>Review client feedback</span>
+                <div class="task-meta">In Progress</div>
+              </div>
+              <div class="task-card pending">
+                <i class="fas fa-circle text-secondary"></i>
+                <span>Prepare presentation slides</span>
+                <div class="task-meta">Tomorrow</div>
+              </div>
+              <div class="stats-row">
+                <div class="stat-item">
+                  <div class="stat-number">12</div>
+                  <div class="stat-label">Completed</div>
+                </div>
+                <div class="stat-item">
+                  <div class="stat-number">5</div>
+                  <div class="stat-label">In Progress</div>
+                </div>
+                <div class="stat-item">
+                  <div class="stat-number">8</div>
+                  <div class="stat-label">Pending</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Floating Elements -->
+          <div class="floating-element element-1">
+            <i class="fas fa-bell"></i>
+          </div>
+          <div class="floating-element element-2">
+            <i class="fas fa-calendar"></i>
+          </div>
+          <div class="floating-element element-3">
+            <i class="fas fa-chart-line"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
+<!-- Features Section -->
+<section class="features-section py-5">
+  <div class="container">
+    <div class="row text-center mb-5">
+      <div class="col-lg-8 mx-auto">
+        <h2 class="section-title mb-4">Why Choose TaskMate?</h2>
+        <p class="section-subtitle">Experience the power of intelligent task management</p>
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="col-lg-4 col-md-6 mb-4">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-brain"></i>
+          </div>
+          <h4>Smart AI Integration</h4>
+          <p>Let AI help you prioritize tasks and optimize your workflow for maximum productivity.</p>
+        </div>
+      </div>
+      
+      <div class="col-lg-4 col-md-6 mb-4">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-users"></i>
+          </div>
+          <h4>Team Collaboration</h4>
+          <p>Work seamlessly with your team members and track collective progress in real-time.</p>
+        </div>
+      </div>
+      
+      <div class="col-lg-4 col-md-6 mb-4">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-chart-bar"></i>
+          </div>
+          <h4>Analytics & Insights</h4>
+          <p>Get detailed analytics on your productivity patterns and identify areas for improvement.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-                     </div>
-                   </div>
-                    <!-- col -->
-                   <div class="col-lg-6 d-flex justify-content-center">
-                      <!-- images -->
-                    <div class="position-relative">
-                     <img src="../assets/images/background/acedamy-img/bg-thumb.svg" alt="" class=" ">
-                     <img src="../assets/images/background/acedamy-img/girl-image.png" alt="" class=" position-absolute end-0 bottom-0">
-                     <img src="../assets/images/background/acedamy-img/frame-1.svg" alt="" class=" position-absolute top-0 ms-lg-n10 ms-n19">
-                     <img src="../assets/images/background/acedamy-img/frame-2.svg" alt="" class=" position-absolute bottom-0 start-0 ms-lg-n14 ms-n6 mb-n7">
-                     <img src="../assets/images/background/acedamy-img/target.svg" alt="" class=" position-absolute bottom-0 mb-8 ms-n10 ms-lg-n1 ">
-                     <img src="../assets/images/background/acedamy-img/sound.svg" alt="" class=" position-absolute top-0  start-0 mt-18 ms-lg-n19 ms-n8">
-                     <img src="../assets/images/background/acedamy-img/trophy.svg" alt="" class=" position-absolute top-0  start-0 ms-lg-n14 ms-n5">
+<!-- Enhanced Styles -->
+<style>
+/* Hero Section */
+.hero-section {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  position: relative;
+  overflow: hidden;
+}
 
-                    </div>
-                   </div>
-                 </div>
-               </div>
-             </section>
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.05)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.05)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.03)"/><circle cx="90" cy="40" r="0.5" fill="rgba(255,255,255,0.03)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+  opacity: 0.3;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  color: white;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50px;
+  padding: 0.5rem 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.hero-title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  line-height: 1.2;
+  color: white;
+}
+
+.text-gradient {
+  background: linear-gradient(45deg, #ffd700, #ffed4e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-subtitle {
+  font-size: 1.25rem;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.6;
+}
+
+.cta-primary {
+  background: linear-gradient(45deg, #ffd700, #ffed4e);
+  border: none;
+  color: #333;
+  font-weight: 600;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+}
+
+.cta-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+  color: #333;
+}
+
+.cta-secondary {
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  font-weight: 600;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.cta-secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.5);
+  color: white;
+  transform: translateY(-2px);
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+}
+
+/* Dashboard Mockup */
+.hero-visual {
+  position: relative;
+  z-index: 2;
+}
+
+.dashboard-mockup {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.mockup-header {
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.mockup-controls {
+  display: flex;
+  gap: 0.5rem;
+  margin-right: 1rem;
+}
+
+.control {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.control.red { background: #ff5f57; }
+.control.yellow { background: #ffbd2e; }
+.control.green { background: #28ca42; }
+
+.mockup-title {
+  font-weight: 600;
+  color: #333;
+  font-size: 0.9rem;
+}
+
+.mockup-content {
+  padding: 1.5rem;
+}
+
+.task-card {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+  background: #f8f9fa;
+  border-radius: 10px;
+  border-left: 4px solid #dee2e6;
+  transition: all 0.3s ease;
+}
+
+.task-card.completed {
+  border-left-color: #28a745;
+  background: rgba(40, 167, 69, 0.05);
+}
+
+.task-card.in-progress {
+  border-left-color: #ffc107;
+  background: rgba(255, 193, 7, 0.05);
+}
+
+.task-card.pending {
+  border-left-color: #6c757d;
+}
+
+.task-card i {
+  margin-right: 0.75rem;
+  font-size: 1.1rem;
+}
+
+.task-card span {
+  flex: 1;
+  font-weight: 500;
+  color: #333;
+}
+
+.task-meta {
+  font-size: 0.8rem;
+  color: #6c757d;
+  font-weight: 500;
+}
+
+.stats-row {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #dee2e6;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-number {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #667eea;
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  color: #6c757d;
+  font-weight: 500;
+}
+
+/* Floating Elements */
+.floating-element {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.5rem;
+  animation: float 3s ease-in-out infinite;
+}
+
+.element-1 {
+  top: 10%;
+  right: -10%;
+  animation-delay: 0s;
+}
+
+.element-2 {
+  top: 50%;
+  right: -5%;
+  animation-delay: 1s;
+}
+
+.element-3 {
+  bottom: 20%;
+  right: -15%;
+  animation-delay: 2s;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(5deg); }
+}
+
+/* Features Section */
+.features-section {
+  background: #f8f9fa;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.section-subtitle {
+  font-size: 1.1rem;
+  color: #6c757d;
+}
+
+.feature-card {
+  text-align: center;
+  padding: 2rem 1.5rem;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  height: 100%;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+.feature-icon {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  color: white;
+  font-size: 2rem;
+}
+
+.feature-card h4 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.feature-card p {
+  color: #6c757d;
+  line-height: 1.6;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2.5rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.1rem;
+  }
+  
+  .hero-buttons {
+    text-align: center;
+  }
+  
+  .cta-primary,
+  .cta-secondary {
+    display: block;
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+  
+  .floating-element {
+    display: none;
+  }
+}
+</style>
 {% endblock %}

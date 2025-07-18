@@ -33,6 +33,7 @@ def init_database():
             title TEXT NOT NULL,
             description TEXT,
             status TEXT DEFAULT 'To Do',
+            priority TEXT DEFAULT 'Medium',
             deadline DATE NULL,
             user_id INTEGER NOT NULL,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -56,6 +57,16 @@ def init_database():
     ''')
     
     conn.commit()
+    
+    # Add priority column to existing tasks table if it doesn't exist
+    try:
+        conn.execute('ALTER TABLE tasks ADD COLUMN priority TEXT DEFAULT "Medium"')
+        conn.commit()
+        print("Added priority column to existing tasks table")
+    except sqlite3.OperationalError:
+        # Column already exists
+        pass
+    
     conn.close()
     print("Database initialized successfully!")
 

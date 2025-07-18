@@ -3,35 +3,221 @@
 {% block title %}Edit Task - TaskMate{% endblock %}
 
 {% block navbar %}
-<!-- Dashboard navbar with logout option -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+<!-- Enhanced Dashboard navbar with improved design -->
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top modern-navbar">
   <div class="container-fluid">
-    <a class="navbar-brand" href="{{ url_for('dashboard') }}">
-      <i class="fas fa-check-circle me-2"></i>TaskMate
+    <!-- Brand with improved styling -->
+    <a class="navbar-brand brand-enhanced" href="{{ url_for('dashboard') }}">
+      <i class="fas fa-check-circle me-2 brand-icon"></i>
+      <span class="brand-text">TaskMate</span>
     </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    
+    <!-- Toggle button for mobile -->
+    <button class="navbar-toggler custom-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
+    
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav me-auto">
+      <!-- Main navigation links -->
+      <ul class="navbar-nav me-auto nav-enhanced">
         <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('dashboard') }}">Dashboard</a>
+          <a class="nav-link nav-link-enhanced" href="{{ url_for('dashboard') }}">
+            <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+          </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('my_task') }}">My Tasks</a>
+          <a class="nav-link nav-link-enhanced active" href="{{ url_for('my_task') }}">
+            <i class="fas fa-tasks me-2"></i>My Tasks
+          </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('profile') }}">Profile</a>
+          <a class="nav-link nav-link-enhanced" href="{{ url_for('profile') }}">
+            <i class="fas fa-user-circle me-2"></i>Profile
+          </a>
         </li>
       </ul>
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+      
+      <!-- User actions on the right -->
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle user-dropdown" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fas fa-user-circle me-2"></i>Account
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end modern-dropdown">
+            <li><a class="dropdown-item" href="{{ url_for('profile') }}">
+              <i class="fas fa-user me-2"></i>Profile Settings
+            </a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item logout-item" href="{{ url_for('logout') }}">
+              <i class="fas fa-sign-out-alt me-2"></i>Logout
+            </a></li>
+          </ul>
         </li>
       </ul>
     </div>
   </div>
 </nav>
+
+<!-- Enhanced Navbar Styles -->
+<style>
+.modern-navbar {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.8rem 0;
+  min-height: 70px;
+}
+
+.brand-enhanced {
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-decoration: none;
+  color: white !important;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+}
+
+.brand-enhanced:hover {
+  transform: translateY(-2px);
+  color: #f8f9fa !important;
+}
+
+.brand-icon {
+  font-size: 1.8rem;
+  color: #ffd700;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+}
+
+.brand-text {
+  background: linear-gradient(45deg, #ffd700, #ffed4e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.nav-enhanced {
+  margin-left: 2rem;
+}
+
+.nav-link-enhanced {
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-weight: 500;
+  padding: 0.7rem 1.2rem !important;
+  border-radius: 8px;
+  margin: 0 0.2rem;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+}
+
+.nav-link-enhanced:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: white !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
+}
+
+.nav-link-enhanced.active {
+  background: rgba(255, 255, 255, 0.2);
+  color: white !important;
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+}
+
+.nav-link-enhanced i {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.user-dropdown {
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-weight: 500;
+  padding: 0.7rem 1.2rem !important;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.user-dropdown:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: white !important;
+  transform: translateY(-1px);
+}
+
+.modern-dropdown {
+  background: rgba(255, 255, 255, 0.95);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  padding: 0.5rem 0;
+  margin-top: 0.5rem;
+}
+
+.modern-dropdown .dropdown-item {
+  padding: 0.7rem 1.5rem;
+  font-weight: 500;
+  color: #495057;
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  margin: 0.2rem 0.5rem;
+}
+
+.modern-dropdown .dropdown-item:hover {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  transform: translateX(5px);
+}
+
+.logout-item:hover {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%) !important;
+}
+
+.custom-toggler {
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  padding: 0.5rem;
+}
+
+.custom-toggler:focus {
+  box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.25);
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* Mobile responsive improvements */
+@media (max-width: 991.98px) {
+  .nav-enhanced {
+    margin-left: 0;
+    margin-top: 1rem;
+  }
+  
+  .nav-link-enhanced {
+    margin: 0.2rem 0;
+  }
+  
+  .brand-enhanced {
+    font-size: 1.3rem;
+  }
+  
+  .modern-navbar {
+    padding: 0.5rem 0;
+  }
+}
+
+/* Content spacing adjustment for fixed navbar */
+body {
+  padding-top: 85px;
+}
+</style>
 {% endblock %}
 
 {% block content %}
@@ -64,7 +250,7 @@
             </div>
 
             <div class="row">
-              <div class="col-md-6">
+              <div class="col-md-4">
                 <div class="mb-3">
                   <label for="deadline" class="form-label">
                     <i class="fas fa-calendar-alt me-1"></i>Deadline
@@ -73,7 +259,7 @@
                          value="{{ task.deadline if task.deadline else '' }}">
                 </div>
               </div>
-              <div class="col-md-6">
+              <div class="col-md-4">
                 <div class="mb-3">
                   <label for="status" class="form-label">
                     <i class="fas fa-list me-1"></i>Status
@@ -82,6 +268,18 @@
                     <option value="To Do" {% if task.status == 'To Do' %}selected{% endif %}>📝 To Do</option>
                     <option value="In Progress" {% if task.status == 'In Progress' %}selected{% endif %}>⏳ In Progress</option>
                     <option value="Done" {% if task.status == 'Done' %}selected{% endif %}>✅ Done</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="mb-3">
+                  <label for="priority" class="form-label">
+                    <i class="fas fa-exclamation-circle me-1"></i>Priority
+                  </label>
+                  <select name="priority" id="priority" class="form-select">
+                    <option value="Low" {% if task.priority == 'Low' %}selected{% endif %}>🟢 Low</option>
+                    <option value="Medium" {% if task.priority == 'Medium' or not task.priority %}selected{% endif %}>🟡 Medium</option>
+                    <option value="High" {% if task.priority == 'High' %}selected{% endif %}>🔴 High</option>
                   </select>
                 </div>
               </div>
