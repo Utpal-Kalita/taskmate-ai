@@ -1,0 +1,219 @@
+{% extends "layout.html" %}
+
+{% block title %}Edit Task - TaskMate{% endblock %}
+
+{% block navbar %}
+<!-- Dashboard navbar with logout option -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{{ url_for('dashboard') }}">
+      <i class="fas fa-check-circle me-2"></i>TaskMate
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('dashboard') }}">Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('my_task') }}">My Tasks</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('profile') }}">Profile</a>
+        </li>
+      </ul>
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5 pt-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card shadow">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+          <h3 class="mb-0"><i class="fas fa-edit me-2"></i>Edit Task</h3>
+          <a href="{{ url_for('my_task') }}" class="btn btn-light btn-sm">
+            <i class="fas fa-arrow-left me-1"></i>Back to Tasks
+          </a>
+        </div>
+        <div class="card-body">
+          <form method="POST">
+            <div class="mb-3">
+              <label for="title" class="form-label">
+                <i class="fas fa-heading me-1"></i>Task Title
+              </label>
+              <input type="text" name="title" id="title" class="form-control" 
+                     value="{{ task.title }}" placeholder="Enter task title..." required>
+            </div>
+
+            <div class="mb-3">
+              <label for="description" class="form-label">
+                <i class="fas fa-align-left me-1"></i>Description
+              </label>
+              <textarea name="description" id="description" class="form-control" 
+                        rows="4" placeholder="Describe your task..." required>{{ task.description }}</textarea>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label for="deadline" class="form-label">
+                    <i class="fas fa-calendar-alt me-1"></i>Deadline
+                  </label>
+                  <input type="date" name="deadline" id="deadline" class="form-control" 
+                         value="{{ task.deadline if task.deadline else '' }}">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label for="status" class="form-label">
+                    <i class="fas fa-list me-1"></i>Status
+                  </label>
+                  <select name="status" id="status" class="form-select">
+                    <option value="To Do" {% if task.status == 'To Do' %}selected{% endif %}>📝 To Do</option>
+                    <option value="In Progress" {% if task.status == 'In Progress' %}selected{% endif %}>⏳ In Progress</option>
+                    <option value="Done" {% if task.status == 'Done' %}selected{% endif %}>✅ Done</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <button type="submit" class="btn btn-primary btn-lg">
+                  <i class="fas fa-save me-2"></i>Update Task
+                </button>
+                <a href="{{ url_for('my_task') }}" class="btn btn-secondary btn-lg ms-2">
+                  <i class="fas fa-times me-2"></i>Cancel
+                </a>
+              </div>
+              <div>
+                <button type="button" class="btn btn-danger btn-lg" data-bs-toggle="modal" data-bs-target="#deleteConfirmModal">
+                  <i class="fas fa-trash me-2"></i>Delete Task
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+        
+        <!-- Task Info Section -->
+        <div class="card-footer bg-light">
+          <div class="row text-center">
+            <div class="col-md-4">
+              <small class="text-muted">
+                <i class="fas fa-calendar-plus me-1"></i>Created: 
+                <strong>{{ task.created_at.split(' ')[0] if task.created_at else 'N/A' }}</strong>
+              </small>
+            </div>
+            <div class="col-md-4">
+              <small class="text-muted">
+                <i class="fas fa-user me-1"></i>Task ID: 
+                <strong>#{{ task.id }}</strong>
+              </small>
+            </div>
+            <div class="col-md-4">
+              <small class="text-muted">
+                <i class="fas fa-clock me-1"></i>Last Updated: 
+                <strong>Today</strong>
+              </small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteConfirmModalLabel">
+          <i class="fas fa-exclamation-triangle text-warning me-2"></i>Confirm Delete
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="text-center">
+          <i class="fas fa-trash fa-3x text-danger mb-3"></i>
+          <h5>Are you sure you want to delete this task?</h5>
+          <div class="alert alert-warning mt-3">
+            <strong>{{ task.title }}</strong>
+          </div>
+          <p class="text-muted">This action cannot be undone. The task will be permanently removed from your task list.</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          <i class="fas fa-times me-2"></i>Cancel
+        </button>
+        <a href="{{ url_for('delete_task', task_id=task.id) }}" class="btn btn-danger">
+          <i class="fas fa-trash me-2"></i>Yes, Delete Task
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<style>
+.card {
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.card-header {
+  border-radius: 15px 15px 0 0 !important;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+}
+
+.form-control, .form-select {
+  border-radius: 10px;
+  border: 2px solid #e9ecef;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+}
+
+.btn {
+  border-radius: 10px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.modal-content {
+  border-radius: 15px;
+  border: none;
+}
+
+.card-footer {
+  border-radius: 0 0 15px 15px;
+}
+
+.alert {
+  border-radius: 10px;
+}
+</style>
+
+{% endblock %}

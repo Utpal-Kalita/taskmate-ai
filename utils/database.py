@@ -1,4 +1,4 @@
-"""
+﻿"""
 Database utilities for TaskMate AI
 """
 import sqlite3
@@ -17,15 +17,27 @@ def init_database():
     """Initialize the database with required tables"""
     conn = get_db_connection()
     
+    # Create users table
+    conn.execute('''
+        CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT UNIQUE NOT NULL,
+            hash TEXT NOT NULL
+        )
+    ''')
+    
     # Create tasks table
     conn.execute('''
         CREATE TABLE IF NOT EXISTS tasks (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             title TEXT NOT NULL,
             description TEXT,
-            status TEXT DEFAULT 'pending',
+            status TEXT DEFAULT 'To Do',
+            deadline DATE NULL,
+            user_id INTEGER NOT NULL,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            completed_at TIMESTAMP NULL
+            completed_at TIMESTAMP NULL,
+            FOREIGN KEY (user_id) REFERENCES users (id)
         )
     ''')
     

@@ -1,11 +1,9 @@
 from flask import Flask, render_template, request, session, redirect, url_for, flash
 from dotenv import load_dotenv
 import os
-import google.generativeai as genai
 from werkzeug.security import check_password_hash, generate_password_hash
 from cs50 import SQL
-from utils.ai import generate_subtasks
-from utils.database import init_database, add_task, get_all_tasks, add_subtask, get_subtasks
+from utils.database import init_database
 
 # Load environment variables
 load_dotenv()
@@ -31,8 +29,8 @@ def index():
 def dashboard():
     return render_template("dashboard.html")
 
-@app.route("/add_task", methods=["GET", "POST"])
-def add_task():
+@app.route("/my_task", methods=["GET", "POST"])
+def my_task():
     # Check if user is logged in
     if "user_id" not in session:
         return redirect("/login")
@@ -42,6 +40,7 @@ def add_task():
         title = request.form.get("title")
         description = request.form.get("description")
         status = request.form.get("status") or "To Do"  # Default to "To Do" if not provided
+        deadline = request.form.get("deadline")  # Get deadline from form
 
         # validation
         if not title:
@@ -49,17 +48,68 @@ def add_task():
         if not description:
             return apology("must provide a task description", 400)
 
-        # insert into DB with user_id and status
-        db.execute("INSERT INTO tasks (title, description, status, user_id) VALUES (?, ?, ?, ?)", 
-                  title, description, status, session["user_id"])
+        # insert into DB with user_id, status, and deadline
+        db.execute("INSERT INTO tasks (title, description, status, deadline, user_id) VALUES (?, ?, ?, ?, ?)", 
+                  title, description, status, deadline, session["user_id"])
 
         # redirect after success
-        return redirect("/dashboard")
+        return redirect("/my_task")
 
     else:
         # Show all tasks table
         tasks = db.execute("SELECT * FROM tasks WHERE user_id = ?", session["user_id"])
-        return render_template("add_task.html", all_tasks=tasks)
+        return render_template("my_task.html", all_tasks=tasks)
+
+@app.route("/edit_task/<int:task_id>", methods=["GET", "POST"])
+def edit_task(task_id):
+    """Edit a specific task"""
+    if "user_id" not in session:
+        return redirect("/login")
+    
+    # Get the task
+    task_rows = db.execute("SELECT * FROM tasks WHERE id = ? AND user_id = ?", 
+                          task_id, session["user_id"])
+    
+    if not task_rows:
+        return apology("Task not found", 404)
+    
+    task = task_rows[0]
+    
+    if request.method == "POST":
+        title = request.form.get("title")
+        description = request.form.get("description")
+        status = request.form.get("status")
+        deadline = request.form.get("deadline")
+        
+        if not title or not description:
+            return apology("Title and description are required", 400)
+        
+        # Update the task
+        db.execute("UPDATE tasks SET title = ?, description = ?, status = ?, deadline = ? WHERE id = ? AND user_id = ?",
+                  title, description, status, deadline, task_id, session["user_id"])
+        
+        flash("Task updated successfully!", "success")
+        return redirect("/my_task")
+    
+    return render_template("edit_task.html", task=task)
+
+@app.route("/delete_task/<int:task_id>")
+def delete_task(task_id):
+    """Delete a specific task"""
+    if "user_id" not in session:
+        return redirect("/login")
+    
+    # Delete the task (only if it belongs to the current user)
+    result = db.execute("DELETE FROM tasks WHERE id = ? AND user_id = ?", 
+                       task_id, session["user_id"])
+    
+    flash("Task deleted successfully!", "success")
+    return redirect("/my_task")
+
+@app.route("/add_task", methods=["GET", "POST"])
+def add_task():
+    """Add task route for compatibility"""
+    return redirect("/my_task")
         
 
 
@@ -100,7 +150,7 @@ def login():
         session["user_id"] = rows[0]["id"]
 
         # Redirect user to home page
-        return redirect("/dashboard")
+        return redirect("/my_task")
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:
