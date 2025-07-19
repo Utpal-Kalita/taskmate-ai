@@ -160,8 +160,9 @@
 
 /* Page content offset for fixed navbar */
 body {
-  padding-top: 85px;
-  background-color: #ffd700;
+  padding-top: 0;
+  margin: 0;
+  background: none;
 }
 </style>
 {% endblock %}
@@ -170,7 +171,7 @@ body {
 <!-- Hero Section -->
 <section class="hero-section">
   <div class="container">
-    <div class="row align-items-center min-vh-100 py-5">
+    <div class="row align-items-center min-vh-100">
       <!-- Left Column - Content -->
       <div class="col-lg-6 mb-5 mb-lg-0">
         <div class="hero-content">
@@ -346,6 +347,21 @@ body {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   position: relative;
   overflow: hidden;
+  min-height: 100vh;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  padding-top: 70px;
+  margin-top: -70px;
+}
+
+.hero-section .container {
+  padding-top: 0;
+  margin-top: 0;
+}
+
+.hero-section .row {
+  margin-top: 0;
+  padding-top: 0;
 }
 
 .hero-section::before {
@@ -363,6 +379,7 @@ body {
   position: relative;
   z-index: 2;
   color: white;
+  padding-top: 0;
 }
 
 .hero-badge {
@@ -442,6 +459,7 @@ body {
 .hero-visual {
   position: relative;
   z-index: 2;
+  padding-top: 0;
 }
 
 .dashboard-mockup {
@@ -568,6 +586,7 @@ body {
   color: white;
   font-size: 1.5rem;
   animation: float 3s ease-in-out infinite;
+  
 }
 
 .element-1 {
@@ -596,6 +615,19 @@ body {
 /* Features Section */
 .features-section {
   background: #f8f9fa;
+  min-height: 100vh;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  padding: 5rem 0;
+  display: flex;
+  align-items: center;
+}
+
+.features-section .container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
 }
 
 .section-title {

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, session, redirect, url_for, flash
+from flask import Flask, render_template, request, session, redirect, url_for, flash, jsonify
 from dotenv import load_dotenv
 import os
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -178,7 +178,6 @@ def delete_task(task_id):
 def add_task():
     """Add task route for compatibility"""
     return redirect("/my_task")
-        
 
 
 
@@ -269,6 +268,7 @@ def register():
     # else only display the register page
     else:
          return render_template("register.html")
+
 
 
 if __name__ == "__main__":
