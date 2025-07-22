@@ -1,9 +1,11 @@
 from flask import Flask, render_template, request, session, redirect, url_for, flash, jsonify
 from dotenv import load_dotenv
 import os
+import time
 from werkzeug.security import check_password_hash, generate_password_hash
 from cs50 import SQL
 from utils.database import init_database
+import google.generativeai as genai
 
 # Load environment variables
 load_dotenv()
@@ -13,6 +15,15 @@ app.secret_key = os.getenv('SECRET_KEY', 'dev-secret-key-change-this')
 
 # Configure CS50 Library to use SQLite database
 db = SQL("sqlite:///taskmate.db")
+
+# Configure Gemini API
+genai.configure(api_key=os.getenv("GOOGLE_AI_API_KEY"))
+model = genai.GenerativeModel("gemini-1.5-flash")
+
+# Rate limiting for API calls
+last_api_call = 0
+api_call_delay = 4  # 4 seconds between calls to stay under 15/minute
+
 
 # Initialize database on startup
 init_database()
@@ -269,7 +280,38 @@ def register():
     else:
          return render_template("register.html")
 
+@app.route('/generate-subtasks', methods=['POST'])
+def generate_subtasks():
+    global last_api_call
+    
+    try:
+        data = request.get_json()
+        task = data.get('task', '')
+        
+        if not task:
+            return jsonify({"error": "Task is required"}), 400
 
+        # Rate limiting
+        current_time = time.time()
+        time_since_last_call = current_time - last_api_call
+        
+        if time_since_last_call < api_call_delay:
+            time.sleep(api_call_delay - time_since_last_call)
+        
+        prompt = f"Break this task into 3 to 5 smaller subtasks: '{task}'"
+        response = model.generate_content(prompt)
+        last_api_call = time.time()
+        
+        return jsonify({"subtasks": response.text})
+    except Exception as e:
+        error_msg = str(e)
+        print(f"Error generating subtasks: {error_msg}")
+        
+        # Check if it's a rate limit error
+        if "429" in error_msg or "quota" in error_msg.lower():
+            return jsonify({"error": "API rate limit exceeded. Please wait a moment and try again."}), 429
+        
+        return jsonify({"error": "Failed to generate subtasks"}), 500
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -440,6 +440,48 @@ body {
         </div>
       </div>
 
+      <!-- AI Task Breaker Section -->
+      <div class="row g-3 mb-4">
+        <div class="col-12">
+          <div class="card ai-task-breaker-card">
+            <div class="card-header ai-breaker-header">
+              <div class="d-flex align-items-center">
+                <div class="ai-icon me-3">
+                  <i class="fas fa-brain"></i>
+                </div>
+                <div>
+                  <h5 class="mb-0">🤖 AI Task Breaker</h5>
+                  <small class="text-muted">Break complex tasks into manageable subtasks</small>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="row align-items-end">
+                <div class="col-md-8 col-lg-9">
+                  <div class="mb-3">
+                    <input type="text" id="taskInput" class="form-control task-input" 
+                           placeholder="e.g. Build a portfolio website, Plan a marketing campaign, Learn React.js...">
+                  </div>
+                </div>
+                <div class="col-md-4 col-lg-3">
+                  <div class="d-grid mb-3">
+                    <button class="btn btn-ai-primary" onclick="submitTask()">
+                      <i class="fas fa-magic me-2"></i>Generate Subtasks
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div id="subtaskContainer" class="subtask-container mt-3">
+                <h6 class="text-muted mb-3">
+                  <i class="fas fa-list-ul me-2"></i>Generated Subtasks:
+                </h6>
+                <ul id="subtaskList" class="subtask-list"></ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Task Lists Row -->
       <div class="row g-3">
         <div class="col-lg-6">
@@ -507,6 +549,7 @@ body {
     </div>
   </div>
 </div>
+
 
 <!-- Enhanced Dashboard Styles -->
 <style>
@@ -721,9 +764,149 @@ body {
     align-self: flex-end;
   }
 }
+
+/* AI Task Breaker Styles */
+.ai-task-breaker-card {
+  border: none;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.15);
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+  transition: all 0.3s ease;
+}
+
+.ai-task-breaker-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+}
+
+.ai-breaker-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 16px 16px 0 0;
+  border: none;
+  padding: 1.25rem;
+}
+
+.ai-breaker-header h5 {
+  color: white;
+  font-weight: 700;
+  margin: 0;
+}
+
+.ai-breaker-header small {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.85rem;
+}
+
+.ai-icon {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.25rem;
+}
+
+.task-input {
+  border: 2px solid #e9ecef;
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: #f8f9fa;
+}
+
+.task-input:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+  background: white;
+}
+
+.btn-ai-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  border-radius: 12px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  color: white;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.9rem;
+}
+
+.btn-ai-primary:hover {
+  background: linear-gradient(135deg, #5a67d8 0%, #6b5b95 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  color: white;
+}
+
+.btn-ai-primary:active {
+  transform: translateY(0);
+}
+
+.subtask-container {
+  display: none;
+}
+
+.subtask-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.subtask-list li {
+  background: #f8f9ff;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.subtask-list li:hover {
+  background: #e9ecff;
+  border-color: #667eea;
+  transform: translateX(4px);
+}
+
+.subtask-list li:before {
+  content: "•";
+  color: #667eea;
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-right: 0.75rem;
+}
+
+.subtask-list li:empty {
+  display: none;
+}
+
+/* Responsive adjustments for AI Task Breaker */
+@media (max-width: 768px) {
+  .ai-breaker-header {
+    padding: 1rem;
+  }
+  
+  .ai-icon {
+    width: 35px;
+    height: 35px;
+    font-size: 1rem;
+  }
+  
+  .task-input {
+    margin-bottom: 1rem;
+  }
+}
 </style>
 {% endblock %}
 
 {% block scripts %}
-<!-- No AI scripts - removed per user request -->
+<script src="{{ url_for('static', filename='script.js') }}"></script>
 {% endblock %}

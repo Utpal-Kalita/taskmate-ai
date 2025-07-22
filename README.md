@@ -1,8 +1,15 @@
 # TaskMate AI - Intelligent Task Management Platform
 
-A sophisticated, modern task management web application built with Flask, featuring comprehensive user authentication, advanced task management capabilities, and a stunning responsive UI with glassmorphism design.
+A sophisticated, modern task management web application built with Flask, featuring comprehensive user authentication, advanced task management capabilities, **AI-powered task breakdown**, and a stunning responsive UI with glassmorphism design.
 
 ## ✨ Key Features
+
+### 🤖 **AI-Powered Task Management**
+- **Intelligent Task Breakdown**: AI-powered subtask generation using Google Gemini
+- **Smart Task Analysis**: Break complex tasks into manageable 3-5 subtasks
+- **Natural Language Processing**: Enter tasks in plain English for AI processing
+- **Rate-Limited API**: Optimized API calls with built-in rate limiting
+- **Fallback Handling**: Graceful error handling with user-friendly messages
 
 ### 🔐 **Advanced Authentication System**
 - Secure user registration and login with password hashing
@@ -32,6 +39,7 @@ A sophisticated, modern task management web application built with Flask, featur
 - **High Priority Display**: Quick access to important tasks
 - **Upcoming Deadlines**: Timeline view of approaching due dates
 - **Progress Visualization**: Clear metrics and statistics
+- **AI Task Breaker**: Prominently positioned AI-powered task breakdown interface
 
 ### 🔧 **Technical Excellence**
 - **Database Integration**: SQLite with CS50 SQL library
@@ -44,6 +52,7 @@ A sophisticated, modern task management web application built with Flask, featur
 
 ### **Backend Technologies**
 - **Python Flask 3.1.1**: Robust web framework with modern features
+- **Google Generative AI (Gemini)**: Advanced AI for task breakdown and analysis
 - **SQLite3**: Lightweight, serverless database
 - **CS50 SQL Library**: Simplified database operations
 - **Werkzeug**: Advanced password hashing and security
@@ -54,12 +63,38 @@ A sophisticated, modern task management web application built with Flask, featur
 - **Bootstrap 5.3.3**: Responsive framework with advanced components
 - **Font Awesome 6.0**: Comprehensive icon library
 - **Custom CSS**: Advanced glassmorphism and gradient effects
-- **JavaScript**: Interactive elements and smooth animations
+- **JavaScript**: Interactive AI features and smooth animations
 
 ### **Development & Deployment**
 - **Virtual Environment**: Isolated Python environment
 - **Git Version Control**: Professional code management
 - **Environment Variables**: Secure configuration management
+
+## 🤖 AI Features & Setup
+
+### **Google AI API Configuration**
+1. **Get API Key**: Visit [Google AI Studio](https://aistudio.google.com/) and create an API key
+2. **Add to Environment**: Add `GOOGLE_AI_API_KEY=your-key-here` to your `.env` file
+3. **Rate Limits**: Free tier allows 15 requests per minute
+4. **Built-in Throttling**: App automatically manages rate limiting (4-second delays)
+
+### **AI Task Breakdown Features**
+- **Intelligent Analysis**: Converts complex tasks into 3-5 manageable subtasks
+- **Natural Language**: Enter tasks in plain English
+- **Smart Formatting**: Automatically cleans and formats AI responses
+- **Error Handling**: Graceful fallbacks for API limitations
+- **Visual Feedback**: Loading states and clear error messages
+
+### **Usage Examples**
+```
+Input: "Build a portfolio website"
+AI Output:
+• Research design trends and gather inspiration
+• Plan website structure and create wireframes  
+• Set up development environment and tools
+• Code responsive layout and implement features
+• Test functionality and deploy to hosting platform
+```
 
 ## 📋 Prerequisites
 
@@ -93,12 +128,27 @@ A sophisticated, modern task management web application built with Flask, featur
    ```bash
    pip install -r requirements.txt
    ```
+   
+   **Dependencies include:**
+   - `Flask==3.1.1` - Web framework
+   - `python-dotenv==1.1.1` - Environment variables
+   - `google-generativeai==0.8.5` - AI integration
+   - `requests==2.32.4` - HTTP client
+   - `cs50` - Database library
 
 5. **Set up environment variables**
    Create a `.env` file in the project root:
    ```
+   FLASK_APP=app.py
+   FLASK_DEBUG=True
    SECRET_KEY=your-secret-key-here
+   GOOGLE_AI_API_KEY=your-google-ai-api-key-here
    ```
+   
+   **Get your Google AI API Key:**
+   1. Visit [Google AI Studio](https://aistudio.google.com/)
+   2. Create a new API key
+   3. Copy and paste it into your `.env` file
 
 6. **Run the application**
    ```bash
@@ -112,25 +162,25 @@ A sophisticated, modern task management web application built with Flask, featur
 
 ```
 taskmate-ai/
-├── 📱 app.py                    # Main Flask application with all routes
+├── 📱 app.py                    # Main Flask application with AI integration
 ├── 📦 requirements.txt          # Python dependencies
 ├── 🔐 .env                     # Environment variables (create this)
 ├── 📝 .gitignore              # Git ignore configuration
 ├── 🗄️ taskmate.db             # SQLite database (auto-created)
 ├── 📄 README.md               # Project documentation
 ├── 📁 templates/              # Jinja2 HTML templates
-│   ├── 🏗️ layout.html         # Base template with navbar block
+│   ├── 🏗️ layout.html         # Base template with navbar
 │   ├── 🏠 index.html          # Modern landing page with hero section
-│   ├── 🔑 login.html          # User login with modern navbar
+│   ├── 🔑 login.html          # User login interface
 │   ├── ✍️ register.html       # User registration with validation
-│   ├── 📊 dashboard.html      # Analytics dashboard with statistics
+│   ├── 📊 dashboard.html      # Analytics dashboard with AI Task Breaker
 │   ├── ✅ my_task.html        # Task management with CRUD operations
 │   ├── ✏️ edit_task.html      # Task editing interface
 │   ├── 👤 profile.html        # User profile management
 │   └── ❌ apology.html        # Error handling page
-├── 📁 static/                 # Static assets (if needed)
+├── 📁 static/                 # Static assets
+│   └── 🤖 script.js           # AI task breaker JavaScript
 ├── 📁 utils/                  # Utility modules
-│   ├── 🤖 ai.py              # AI-related functions (future)
 │   └── 🗄️ database.py        # Database initialization and schema
 └── 📁 env/                    # Virtual environment (local)
 ```
@@ -147,6 +197,14 @@ taskmate-ai/
 - **High Priority Tasks**: Quick access to your most important tasks
 - **Upcoming Deadlines**: Timeline of tasks approaching their due dates
 - **Progress Tracking**: Real-time completion metrics
+- **AI Task Breaker**: Intelligent task breakdown interface prominently positioned for easy access
+
+### **AI Task Breakdown Workflow**
+1. **Access AI Features**: Find the AI Task Breaker prominently displayed on your dashboard
+2. **Input Your Task**: Enter any complex task in plain English (e.g., "Build a portfolio website")
+3. **Generate Subtasks**: Click "Generate Subtasks" to get AI-powered breakdown
+4. **Review Results**: AI provides 3-5 actionable subtasks with descriptions
+5. **Create Tasks**: Use the generated subtasks to create your actual tasks
 
 ### **Task Management Workflow**
 1. **Create Tasks**: Navigate to "My Tasks" and click "Add New Task"
@@ -205,7 +263,20 @@ CREATE TABLE tasks (
 - **Flexible Priorities**: High, Medium, Low classification
 - **Status Progression**: To Do → In Progress → Done workflow
 
-## 🔐 Security & Best Practices
+## �️ Troubleshooting
+
+### **Common AI Issues**
+- **"Rate limit exceeded"**: Wait 60 seconds between requests (free tier limit)
+- **"API key invalid"**: Verify your Google AI API key in `.env` file
+- **"Failed to generate subtasks"**: Check internet connection and API key validity
+- **Empty responses**: Try rephrasing your task or check API status
+
+### **General Issues**
+- **Database errors**: Delete `taskmate.db` and restart app to recreate
+- **Import errors**: Ensure virtual environment is activated
+- **Port conflicts**: Change port in `app.py` or stop other Flask apps
+
+## �🔐 Security & Best Practices
 
 ### **Authentication Security**
 - **Password Hashing**: Werkzeug-based secure password storage
@@ -237,6 +308,9 @@ CREATE TABLE tasks (
 - ✅ Smart task sorting and filtering
 - ✅ Professional landing page
 - ✅ Consistent navigation across all pages
+- ✅ **AI-Powered Task Breakdown with Google Gemini**
+- ✅ **Rate-limited API calls for optimal performance**
+- ✅ **Intelligent subtask generation**
 
 ### **🔮 Upcoming Features**
 - [ ] **Advanced Search**: Full-text search across tasks
@@ -250,12 +324,16 @@ CREATE TABLE tasks (
 - [ ] **Export/Import**: Backup and restore task data
 - [ ] **Mobile App**: Native iOS and Android applications
 
-### **🤖 AI Integration (Future)**
-- [ ] **Smart Suggestions**: AI-powered task recommendations
+### **🤖 AI Integration (Current)**
+- ✅ **Smart Task Breakdown**: AI-powered subtask generation using Google Gemini
+- ✅ **Natural Language Processing**: Plain English task input
+- ✅ **Rate-Limited API**: Optimized for free tier usage
+- ✅ **Error Handling**: Graceful fallbacks for API limitations
+- [ ] **Advanced Task Analysis**: AI-powered complexity and time estimation
+- [ ] **Smart Suggestions**: Context-aware task recommendations
 - [ ] **Auto-categorization**: Intelligent task classification
 - [ ] **Deadline Prediction**: AI-based deadline estimation
 - [ ] **Productivity Insights**: AI-generated productivity reports
-- [ ] **Natural Language**: Create tasks using natural language input
 
 ## 📸 Screenshots & Demo
 
@@ -269,6 +347,14 @@ CREATE TABLE tasks (
 - High priority tasks overview
 - Upcoming deadlines timeline
 - Progress tracking metrics
+- **AI Task Breaker**: Prominently positioned intelligent task breakdown interface
+
+### **🤖 AI Task Breakdown**
+- Modern glassmorphism design with gradient header
+- Brain icon and descriptive interface
+- Real-time subtask generation
+- Loading states with visual feedback
+- Error handling with user-friendly messages
 
 ### **✅ Task Management**
 - Comprehensive task list with sorting options
@@ -382,4 +468,4 @@ If you find TaskMate AI helpful, please consider:
 
 ---
 
-**TaskMate AI** - *Organize your life, achieve your goals* 🚀
+**TaskMate AI** - *Organize your life with intelligent task management* 🤖✨

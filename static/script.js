@@ -79,3 +79,55 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+async function submitTask() {
+    const task = document.getElementById("taskInput").value;
+    const list = document.getElementById('subtaskList');
+    const container = document.getElementById('subtaskContainer');
+    
+    if (!task.trim()) {
+        alert('Please enter a task description');
+        return;
+    }
+    
+    // Show loading state
+    container.style.display = 'block';
+    list.innerHTML = '<li style="color: #667eea;">🤖 Generating subtasks...</li>';
+    
+    try {
+        const res = await fetch('/generate-subtasks', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({task})
+        });
+        
+        const data = await res.json();
+        
+        if (!res.ok) {
+            throw new Error(data.error || 'Failed to generate subtasks');
+        }
+        
+        list.innerHTML = '';
+        const subtasks = data.subtasks.split('\n').filter(line => line.trim() !== '');
+        
+        if (subtasks.length === 0) {
+            list.innerHTML = '<li style="color: #6c757d;">No subtasks generated</li>';
+            return;
+        }
+        
+        subtasks.forEach(subtask => {
+            const cleanTask = subtask.replace(/^\d+\.\s*/, '').replace(/^\*\s*/, '').trim();
+            if (cleanTask) {
+                const listItem = document.createElement('li');
+                listItem.textContent = cleanTask;
+                list.appendChild(listItem);
+            }
+        });
+        
+    } catch (error) {
+        console.error('Error:', error);
+        list.innerHTML = `<li style="color: #dc3545;">❌ ${error.message}</li>`;
+    }
+}
