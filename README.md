@@ -341,6 +341,7 @@ CREATE TABLE tasks (
 - Modern hero section with gradient background
 - Feature highlights and call-to-action buttons
 - Responsive design with glassmorphism effects
+![alt text](image.png)
 
 ### **📊 Dashboard**
 - Task statistics with visual cards
@@ -348,6 +349,7 @@ CREATE TABLE tasks (
 - Upcoming deadlines timeline
 - Progress tracking metrics
 - **AI Task Breaker**: Prominently positioned intelligent task breakdown interface
+![alt text](image-1.png)
 
 ### **🤖 AI Task Breakdown**
 - Modern glassmorphism design with gradient header
@@ -355,12 +357,14 @@ CREATE TABLE tasks (
 - Real-time subtask generation
 - Loading states with visual feedback
 - Error handling with user-friendly messages
+![alt text](image-2.png)
 
 ### **✅ Task Management**
 - Comprehensive task list with sorting options
 - Inline editing and status updates
 - Priority-based color coding
 - Deadline tracking with overdue indicators
+![alt text](image-3.png)
 
 ### **🎨 Design Highlights**
 - Consistent glassmorphism design language
@@ -431,9 +435,7 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 **Utpal Kalita**
 - 🐙 GitHub: [@Utpal-Kalita](https://github.com/Utpal-Kalita)
-- 📧 Email: [Contact for collaborations]
-- 🌐 Portfolio: [Your portfolio website]
-- 💼 LinkedIn: [Your LinkedIn profile]
+- 📧 Email: utpalkalita3002@gmail.com
 
 ## 🙏 Acknowledgments & Credits
 
@@ -442,17 +444,6 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 - **Flask Community**: For comprehensive documentation and examples
 - **Bootstrap Team**: For the responsive framework and components
 - **Font Awesome**: For the beautiful and comprehensive icon library
-
-### **Design Inspiration**
-- Modern glassmorphism design trends
-- Contemporary task management applications
-- Material Design principles
-- Apple's Human Interface Guidelines
-
-### **Special Thanks**
-- Open source community for continuous inspiration
-- Beta testers for valuable feedback and suggestions
-- Contributors who help improve the project
 
 ---
 
