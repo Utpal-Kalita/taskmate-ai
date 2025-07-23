@@ -372,25 +372,6 @@ CREATE TABLE tasks (
 - Smooth animations and hover effects
 - Mobile-responsive layout
 
-## 🚀 Performance & Optimization
-
-### **Frontend Performance**
-- Optimized CSS with efficient selectors
-- Minimal JavaScript for better load times
-- Responsive images and assets
-- Clean, semantic HTML structure
-
-### **Backend Efficiency**
-- Efficient SQL queries with proper indexing
-- Session management with minimal overhead
-- Optimized database operations
-- Clean route handling and error management
-
-### **Scalability Considerations**
-- Modular code architecture for easy expansion
-- Environment-based configuration
-- Database design ready for additional features
-- Clean separation of concerns
 
 ## 🤝 Contributing
 
