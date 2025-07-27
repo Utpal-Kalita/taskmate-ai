@@ -11,12 +11,12 @@
       <i class="fas fa-check-circle me-2 brand-icon"></i>
       <span class="brand-text">TaskMate</span>
     </a>
-    
+
     <!-- Toggle button for mobile -->
     <button class="navbar-toggler custom-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    
+
     <div class="collapse navbar-collapse" id="navbarNav">
       <!-- Main navigation links -->
       <ul class="navbar-nav me-auto nav-enhanced">
@@ -36,7 +36,7 @@
           </a>
         </li>
       </ul>
-      
+
       <!-- User actions on the right -->
       <ul class="navbar-nav ms-auto">
         <li class="nav-item dropdown">
@@ -199,15 +199,15 @@
     margin-left: 0;
     margin-top: 1rem;
   }
-  
+
   .nav-link-enhanced {
     margin: 0.2rem 0;
   }
-  
+
   .brand-enhanced {
     font-size: 1.3rem;
   }
-  
+
   .modern-navbar {
     padding: 0.5rem 0;
   }
@@ -222,10 +222,10 @@ body {
 
 {% block content %}
 <div class="container-fluid mt-5 pt-5">
-  
+
   <!-- Side-by-Side Layout: Task List + Add Form -->
   <div class="row g-4">
-    
+
     <!-- Tasks Display Section (Left Side - 70%) -->
     <div class="col-lg-8 col-xl-9">
       <div class="card shadow main-content-card">
@@ -242,10 +242,10 @@ body {
                 <option value="deadline" {% if request.args.get('sort_by') == 'deadline' %}selected{% endif %}>Deadline</option>
                 <option value="priority" {% if request.args.get('sort_by') == 'priority' %}selected{% endif %}>Priority</option>
               </select>
-              
+
             </form>
 
-            
+
           </div>
 
           {% if all_tasks %}
@@ -253,14 +253,14 @@ body {
               <table class="table table-hover mb-0">
                 <thead class="table-dark sticky-header">
                   <tr>
-                    <th scope="col" class="text-center">#</th>
-                    <th scope="col">Title</th>
-                    <th scope="col" class="d-none d-md-table-cell">Description</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Priority</th>
-                    <th scope="col" class="d-none d-lg-table-cell">Deadline</th>
-                    <th scope="col" class="d-none d-xl-table-cell">Created</th>
-                    <th scope="col" class="text-center">Actions</th>
+                    <th scope="col" class="text-center" style="width: 5%;">#</th>
+                    <th scope="col" style="width: 15%;">Title</th>
+                    <th scope="col" style="width: 25%;">Description</th>
+                    <th scope="col" style="width: 12%;">Status</th>
+                    <th scope="col" style="width: 10%;">Priority</th>
+                    <th scope="col" style="width: 12%;">Deadline</th>
+                    <th scope="col" style="width: 10%;">Created</th>
+                    <th scope="col" class="text-center" style="width: 11%;">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -269,19 +269,17 @@ body {
                     <td class="fw-bold text-center">{{ loop.index }}</td>
                     <td class="task-title-cell">
                       <div class="fw-semibold task-title">{{ task.title }}</div>
-                      <div class="d-md-none">
-                        <small class="text-muted">{{ task.description[:50] }}{% if task.description|length > 50 %}...{% endif %}</small>
-                      </div>
+
                     </td>
-                    <td class="d-none d-md-table-cell">
+                    <td >
                       <div class="text-muted small task-description">
-                        {{ task.description[:80] }}{% if task.description|length > 80 %}...{% endif %}
+
                         <button type="button" class="btn btn-info btn-sm ms-2" data-bs-toggle="modal" data-bs-target="#viewModal{{ task.id }}" title="View full task details">
                           <i class="fas fa-eye"></i>
                         </button>
                       </div>
                     </td>
-                    <td>
+                                       <td class="status align-middle">
                       {% if task.status == 'To Do' %}
                         <span class="badge bg-warning text-dark">📝 {{ task.status }}</span>
                       {% elif task.status == 'In Progress' %}
@@ -289,42 +287,30 @@ body {
                       {% elif task.status == 'Done' %}
                         <span class="badge bg-success">✅ {{ task.status }}</span>
                       {% else %}
-                        <span class="badge bg-secondary">{{ task.status }}</span>
+                        <span class="badge bg-secondary">{{ task.status or 'To Do' }}</span>
                       {% endif %}
                     </td>
-                       <td>
+                    <td class="priority align-middle">
                       {% if task.priority == 'High' %}
-                        <span class="badge bg-warning text-dark"> {{ task.priority }}</span>
+                        <span class="badge bg-danger text-white">{{ task.priority }}</span>
                       {% elif task.priority == 'Medium' %}
-                        <span class="badge bg-info text-white"> {{ task.priority }}</span>
+                        <span class="badge bg-warning text-dark">{{ task.priority }}</span>
                       {% elif task.priority == 'Low' %}
-                        <span class="badge bg-success"> {{ task.priority }}</span>
+                        <span class="badge bg-success">{{ task.priority }}</span>
                       {% else %}
-                        <span class="badge bg-secondary">{{ task.priority }}</span>
+                        <span class="badge bg-secondary">{{ task.priority or 'Medium' }}</span>
                       {% endif %}
                     </td>
-
-                    <td class="text-muted small d-none d-lg-table-cell">
-                      {% if task.deadline %}
-                        {% if task.deadline == '2025-07-18' %}
-                          <span class="text-warning fw-semibold">
-                            <i class="fas fa-clock me-1"></i>Due Today
-                          </span>
-                        {% elif task.deadline < '2025-07-18' and task.status != 'Done' %}
-                          <span class="text-danger fw-semibold">
-                            <i class="fas fa-exclamation-triangle me-1"></i>Overdue
-                          </span>
-                          <br><small>{{ task.deadline }}</small>
+                      <td class="text-muted">
+                        {% if task.deadline %}
+                          {{ task.deadline }}
                         {% else %}
-                          <i class="fas fa-calendar me-1"></i>{{ task.deadline }}
+                          <span class="text-muted">
+                            <i class="fas fa-minus me-1"></i>No deadline
+                          </span>
                         {% endif %}
-                      {% else %}
-                        <span class="text-muted">
-                          <i class="fas fa-minus me-1"></i>No deadline
-                        </span>
-                      {% endif %}
-                    </td>
-                    <td class="text-muted small d-none d-xl-table-cell">
+                      </td>
+                    <td class="text-muted">
                       {{ task.created_at.split(' ')[0] if task.created_at else 'N/A' }}
                     </td>
                     <td class="text-center">
@@ -332,7 +318,7 @@ body {
                         <a href="{{ url_for('edit_task', task_id=task.id) }}" class="btn btn-outline-primary" title="Edit">
                           <i class="fas fa-edit"></i>
                         </a>
-                        <button type="button" class="btn btn-outline-danger" title="Delete" 
+                        <button type="button" class="btn btn-outline-danger" title="Delete"
                                 data-bs-toggle="modal" data-bs-target="#deleteModal{{ task.id }}">
                           <i class="fas fa-trash"></i>
                         </button>
@@ -374,7 +360,7 @@ body {
                 <label for="title" class="form-label compact-label">
                   <i class="fas fa-heading me-1"></i>Task Title
                 </label>
-                <input type="text" name="title" id="title" class="form-control compact-input" 
+                <input type="text" name="title" id="title" class="form-control compact-input"
                        placeholder="Enter task title..." required>
               </div>
                 <!--Task Description input-->
@@ -382,7 +368,7 @@ body {
                 <label for="description" class="form-label compact-label">
                   <i class="fas fa-align-left me-1"></i>Description
                 </label>
-                <textarea name="description" id="description" class="form-control compact-input" 
+                <textarea name="description" id="description" class="form-control compact-input"
                           rows="3" placeholder="Describe your task..." required></textarea>
               </div>
                 <!--Task Deadline input-->
@@ -431,7 +417,7 @@ body {
         </div>
       </div>
     </div>
-    
+
   </div>
 </div>
 
@@ -480,7 +466,7 @@ body {
         <hr>
         <div class="row">
           <div class="col-md-4">
-            <strong>Status:</strong> 
+            <strong>Status:</strong>
             {% if task.status == 'To Do' %}
               <span class="badge bg-warning text-dark">📝 {{ task.status }}</span>
             {% elif task.status == 'In Progress' %}
@@ -490,7 +476,7 @@ body {
             {% endif %}
           </div>
           <div class="col-md-4">
-            <strong>Priority:</strong> 
+            <strong>Priority:</strong>
             {% if task.priority == 'High' %}
               <span class="badge bg-danger">🔴 {{ task.priority }}</span>
             {% elif task.priority == 'Medium' %}
@@ -502,7 +488,7 @@ body {
             {% endif %}
           </div>
           <div class="col-md-4">
-            <strong>Deadline:</strong> 
+            <strong>Deadline:</strong>
             {% if task.deadline %}
               {{ task.deadline }}
             {% else %}
@@ -827,7 +813,7 @@ h3, h4, h5 {
     padding-left: 1rem;
     padding-right: 1rem;
   }
-  
+
   .sidebar-form {
     position: relative;
     top: auto;
@@ -838,16 +824,16 @@ h3, h4, h5 {
   .col-lg-8 {
     margin-bottom: 2rem;
   }
-  
+
   .sidebar-form {
     position: relative;
     top: auto;
   }
-  
+
   .compact-form {
     padding: 1.25rem;
   }
-  
+
   .main-content-card {
     min-height: auto;
   }
@@ -857,25 +843,25 @@ h3, h4, h5 {
   .card-body {
     padding: 1.5rem;
   }
-  
+
   .table td, .table th {
     padding: 1rem 0.5rem;
     font-size: 0.9rem;
   }
-  
+
   .modal-body, .modal-header, .modal-footer {
     padding: 1.5rem;
   }
-  
+
   .compact-form {
     padding: 1rem;
   }
-  
+
   .btn-group-sm {
     flex-direction: column;
     gap: 0.25rem;
   }
-  
+
   .btn-group-sm > .btn {
     margin-right: 0;
   }
