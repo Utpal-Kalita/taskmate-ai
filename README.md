@@ -162,6 +162,19 @@ taskmate-ai/
 - **Progress Tracking**: Completion rates and productivity metrics
 - **Recent Activity**: Timeline of recent task updates
 
+## Screenshots
+Landing page -
+![alt text](image-4.png)
+
+Dashboard-
+![alt text](image-5.png)
+
+AI task breaker-
+![alt text](image-6.png)
+
+My tasks page-
+![alt text](image-7.png)
+
 ## Design Decisions
 
 ### Database Schema
