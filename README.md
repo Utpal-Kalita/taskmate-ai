@@ -1,6 +1,6 @@
 # TaskMate AI - CS50x Final Project
 
-## Video Demo: [To be added]
+## Video Demo: (https://www.youtube.com/watch?v=QFwCyWLeogY)
 
 ## Description
 
@@ -53,6 +53,15 @@ I chose to build TaskMate AI because I wanted to explore how artificial intellig
 - **Git**: Version control for project history
 - **Requirements.txt**: Dependency specification for easy deployment
 
+## 🤖 Use of AI in This Project
+
+- GitHub Copilot was used to assist with writing most of the css classes and Bootstrap layout for this project. This includes the landing page and layout components.
+
+- An AI-based task breakdown feature was also implemented using the Gemini API. When a user enters a task, the application generates suggested subtasks by sending a natural language prompt to Gemini. These suggestions are reviewed and integrated into the task management flow.
+
+- All AI-assisted code and features were reviewed, understood, and customized to fit the needs of the project.
+
+
 ## Project Structure
 
 ```
@@ -73,8 +82,8 @@ taskmate-ai/
 │   ├── edit_task.html    # Task editing interface
 │   ├── login.html        # User login form
 │   ├── register.html     # User registration form
-│   ├── profile.html      # User profile page
-│   └── apology.html      # Error page template
+│   └── profile.html      # User profile page
+│
 ├── static/
 │   ├── styles.css        # Main stylesheet
 │   ├── css/
@@ -163,17 +172,17 @@ taskmate-ai/
 - **Recent Activity**: Timeline of recent task updates
 
 ## Screenshots
-Landing page -
-![alt text](image-4.png)
+Landing page-
+![alt text](image.png)
 
 Dashboard-
-![alt text](image-5.png)
+![alt text](image-1.png)
 
 AI task breaker-
-![alt text](image-6.png)
+![alt text](image-2.png)
 
 My tasks page-
-![alt text](image-7.png)
+![alt text](image-3.png)
 
 ## Design Decisions
 
@@ -202,23 +211,7 @@ Bootstrap was selected for rapid development while custom CSS provides:
 - Input validation and sanitization on all forms
 - Environment variables for sensitive configuration data
 
-## Challenges and Solutions
 
-### Challenge 1: AI API Integration
-**Problem**: Managing rate limits and API errors gracefully
-**Solution**: Implemented user feedback system with error handling and usage tracking
-
-### Challenge 2: Database Design
-**Problem**: Ensuring data integrity and relationship management
-**Solution**: Used CS50's SQL library with proper foreign key constraints and validation
-
-### Challenge 3: User Experience
-**Problem**: Creating an intuitive interface for complex functionality
-**Solution**: Iterative design process with user feedback and Bootstrap's responsive components
-
-### Challenge 4: State Management
-**Problem**: Maintaining application state across page navigation
-**Solution**: Session-based authentication with proper logout handling and CSRF protection
 
 ## Future Enhancements
 
@@ -257,24 +250,11 @@ This project is developed for educational purposes as part of Harvard's CS50x co
 
 ## Contact
 
-Developed by [Your Name] as a CS50x Final Project
-- GitHub: [Your GitHub Profile]
-- Email: [Your Email]
-- CS50x: [Your CS50x Username]
+- GitHub: https://github.com/Utpal-Kalita
+- Email: utpalkalita3002@gmail.com
 
 ---
 
 *This project represents the culmination of my learning journey through Harvard's CS50x course, combining web development, database management, artificial intelligence, and user experience design into a practical application that solves real-world productivity challenges.*
-  - **my_task.html**: The interface for all task CRUD operations.
-  - **login.html & register.html**: User authentication pages.
 
-## Future Enhancements
-
-- **Advanced AI Features**: Integrate AI for predicting task complexity, suggesting deadlines, and providing productivity analytics.
-
-- **Collaboration**: Add features for team-based projects, allowing users to assign tasks and collaborate.
-
-- **Categorization and Search**: Implement task categorization (e.g., work, personal) and a robust search functionality.
-
-- **Mobile Applications**: Develop native mobile apps for iOS and Android to provide a seamless cross-platform experience.
 
